@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Intro from './pages/intro.vue';
+import Products from './pages/products.vue';
 </script>
 
 <template>
-  <Intro />
+  <Products />
 </template>

@@ -4,6 +4,7 @@ import { ref, onMounted } from 'vue';
 
 const selected = ref(null);
 const categories = ref([]);
+const CATEGORIES_TOKEN = import.meta.env.VITE_CATEGORIES_TOKEN;
 
 onMounted(async () => {
   try {
@@ -12,8 +13,7 @@ onMounted(async () => {
       {
         method: 'GET',
         headers: {
-          Authorization:
-            'Bearer 71eb9033026aac1296b335533d3d0827fc9343b3a18c6a188e5c7e73148bbd0f',
+          Authorization: `Bearer ${CATEGORIES_TOKEN}`,
           'Content-Type': 'application/json',
         },
       }
@@ -34,7 +34,9 @@ onMounted(async () => {
   <div class="page">
     <section class="dropdown-section">
       <h1>Select a Category</h1>
-      <p class="selected-text">Selected (represents the ID of the category): {{ selected }}</p>
+      <p class="selected-text">
+        Selected (represents the ID of the category): {{ selected }}
+      </p>
       <DropDown v-model="selected" :options="categories" />
     </section>
 

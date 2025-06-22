@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch, defineProps, onMounted } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 
 // Define props:
 // - modelValue: the selected value, used with v-model and synced with the parent via emit
