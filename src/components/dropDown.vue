@@ -1,12 +1,12 @@
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 
 // Define props:
 // - modelValue: the selected value, used with v-model and synced with the parent via emit
 // - options: an array of categories passed from the parent page component
 
 const { modelValue, options } = defineProps({
-  modelValue: [String, Number, Object],
+  modelValue: [String, Number],
   options: {
     type: Array,
     default: () => [],
@@ -39,9 +39,23 @@ const selectedLabel = computed(() => {
     .find((sub) => sub.id === modelValue);
   return found?.name || 'All categories';
 });
+
+function handleClickOutside(event) {
+  if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
+    isOpen.value = false;
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
 </script>
 <template>
-  <div class="dropdown">
+  <div class="dropdown" ref="dropdownRef">
     <button
       @click="toggleDropdown"
       class="dropdown-button"

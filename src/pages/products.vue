@@ -1,10 +1,18 @@
-<script setup lang="ts">
+<script setup>
 import DropDown from '../components/dropDown.vue';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 
 const selected = ref(null);
 const categories = ref([]);
 const CATEGORIES_TOKEN = import.meta.env.VITE_CATEGORIES_TOKEN;
+
+const filteredCategories = computed(() => {
+  if (!selected.value) return categories.value;
+
+  return categories.value.filter((parent) =>
+    parent.children?.some((child) => child.id === selected.value)
+  );
+});
 
 onMounted(async () => {
   try {
@@ -43,7 +51,11 @@ onMounted(async () => {
     <section class="products-section">
       <h2>Explore Our Products</h2>
       <div class="product-grid">
-        <div v-for="item in categories" :key="item.id" class="product-card">
+        <div
+          v-for="item in filteredCategories"
+          :key="item.id"
+          class="product-card"
+        >
           <img :src="item.image" alt="Product image" />
           <p class="product-name">{{ item.name }}</p>
         </div>
